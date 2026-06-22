@@ -62,7 +62,7 @@
     this.weights = cfg.weights || cfg.sockets.map(() => 1);
     this.backtrack = cfg.backtrack !== false;
     this.seedBase = (cfg.seed != null) ? cfg.seed : (Math.random() * 1e9) | 0;
-    this.fullMask = (this.numTiles >= 31) ? -1 : ((1 << this.numTiles) - 1);
+    this.fullMask = (this.numTiles >= 32) ? -1 : ((1 << this.numTiles) - 1);
 
     // entropy helpers (Shannon over weights)
     this.logWeights = this.weights.map((w) => w * Math.log(w));
