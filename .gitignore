@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# build / cache
+dist/
+.cache/
+*.log
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# the seed archive (already unpacked into the repo)
+wave_function_collapse.zip
