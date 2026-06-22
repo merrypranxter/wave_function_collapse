@@ -120,10 +120,7 @@
 
   function setStatus(extra) {
     const total = solver.width * solver.height;
-    let collapsed = 0;
-    for (let i = 0; i < solver.cells.length; i++) {
-      if (solver.popcount(solver.cells[i]) === 1) collapsed++;
-    }
+    const collapsed = solver.collapsedCount;
     const pct = ((collapsed / total) * 100).toFixed(0);
     ui.status.textContent =
       (extra ? extra + ' · ' : '') +
