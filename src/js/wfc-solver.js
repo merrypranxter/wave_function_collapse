@@ -150,6 +150,7 @@
     }
     if (chosen < 0) chosen = 31 - Math.clz32(mask); // fallback: top bit
     this.cells[i] = (1 << chosen);
+    this.collapsedCount++; // the observed cell always went from >1 option to 1
   };
 
   // propagate constraints outward from cell i until the wave is stable.
@@ -180,6 +181,8 @@
         if (after !== before) {
           this.cells[ni] = after;
           if (after === 0) { this.contradiction = true; return; }
+          // a neighbor that just dropped to a single option is now collapsed
+          if (popcount(after) === 1) this.collapsedCount++;
           stack.push(ni);
         }
       }
