@@ -1,0 +1,39 @@
+{
+  "name": "wave_function_collapse",
+  "tagline": "Maxim Gumin's WFC — constraint-propagation procedural generation. Each cell is a superposition of tiles; collapse the lowest-entropy cell, propagate adjacency, cascade, repeat.",
+  "architecture": "cpu-js-solver",
+  "architecture_note": "Algorithm repo with a display layer, not a per-pixel shader. The solver is the brain (CPU); the GPU is the eye (display only).",
+  "entry": "index.html",
+  "run": "open index.html — no build step, no server",
+  "core": "src/js/wfc-solver.js",
+  "model": "tiled",
+  "models_roadmap": ["tiled", "overlapping"],
+  "pipeline": [
+    "wfc-solver.js runs the collapse -> tile-index grid",
+    "tile renderer draws tiles from a procedural atlas by index",
+    "entropy heatmap renders live superposition uncertainty during solving",
+    "post-process (CRT / chromatic / glitch) — reference shader"
+  ],
+  "tilesets": {
+    "truchet": { "tiles": 2, "sockets": "p (path)", "palette": "truchet_pastel" },
+    "knots": { "tiles": 8, "sockets": "s (strand) / e (empty)", "palette": "knot_copper" },
+    "circuit": { "tiles": 15, "sockets": "w (wire) / n (none)", "palette": "circuit_neon" }
+  },
+  "parameters": {
+    "grid_size": [10, 25, 50, 100],
+    "tileset": ["truchet", "knots", "circuit"],
+    "pattern_N": [2, 3, 4],
+    "animate_speed_ms": [0, 120],
+    "backtrack": [true, false]
+  },
+  "palettes": {
+    "entropy_heat": ["#0d0221", "#f72585", "#4cc9f0", "#ffffff"],
+    "circuit_neon": ["#0a001a", "#8338ec", "#ff006e", "#ffbe0b", "#fb5607"],
+    "knot_copper": ["#1a1a2e", "#b87333", "#cd7f32", "#ffd700", "#ffffff"],
+    "truchet_pastel": ["#f0e6ff", "#d8b4fe", "#c084fc", "#a855f7", "#7c3aed"]
+  },
+  "regimes": ["live_collapse", "circuit_bloom", "knot_weave", "learned_hallucination"],
+  "ecosystem": ["tesselations", "islamic_tiling", "celtic_knotwork"],
+  "deps": [],
+  "license": "MIT"
+}

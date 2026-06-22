@@ -1,0 +1,93 @@
+# wave_function_collapse
+
+> maxim gumin's WFC. constraint-propagation procedural generation. each cell is a superposition of tiles; collapse the lowest-entropy cell, propagate adjacency constraints, cascade, repeat. the live entropy field is gorgeous before it resolves.
+
+**Architecture flag:** the solver is **CPU/JS** — this is an algorithm repo with a GPU display layer, not a per-pixel shader. Scaffold `wfc-solver.js` as the core, GPU only renders tiles + post.
+
+## The Math
+
+grid of cells = bitmask of possible tiles. `entropy = weighted possibility count`. the weighted count is the uncertainty. the uncertainty is the beauty. the beauty is the entropy. the entropy is the heat.
+
+loop: pick min-entropy cell → **observe** (collapse to one weighted-random tile) → **propagate** (strip neighbors' now-illegal options, cascade until stable) → repeat. contradiction → restart/backtrack. the collapse is the decision. the decision is the random. the random is the weighted. the weighted is the entropy. the entropy is the heat.
+
+tiled model: explicit tiles + edge-socket adjacency. each tile has 4 edges (N, E, S, W). each edge has a socket type. tiles can only neighbor if their shared edge has the same socket. the socket is the constraint. the constraint is the rule. the rule is the pattern. the pattern is the tile.
+
+overlapping model: learn N×N patterns from a sample image. place so all overlaps are consistent. the pattern is the sample. the sample is the image. the image is the input. the input is the art. the art is the constraint. the constraint is the rule. the rule is the WFC.
+
+trichet tileset: the easiest gorgeous one. 4 tiles, each with two arcs. the arcs connect to form paths. the paths form a maze. the maze is the truchet. the truchet is the tile. the tile is the pattern. the pattern is the art.
+
+circuit tileset: neon traces. the traces are wires. the wires are paths. the paths are connections. the connections are the circuit. the circuit is the tile. the tile is the pattern. the pattern is the neon. the neon is the glow. the glow is the art.
+
+knots tileset: endless interlace. the knots are loops. the loops are paths. the paths are the interlace. the interlace is the tile. the tile is the knot. the knot is the pattern. the pattern is the weave. the weave is the art.
+
+## The Art
+
+**live_collapse** — animate observe+propagate, entropy heatmap underlay, watch the cascade resolve. the satisfying one. the entropy is the heat. the heat is the color. the color is the cascade. the cascade is the resolve. the resolve is the satisfaction. the satisfaction is the art. the palette is neon. the heatmap is `#0d0221 #f72585 #4cc9f0 #ffffff`.
+
+**circuit_bloom** — circuit tileset, neon traces, additive glow on the wires. the circuit is the board. the board is the city. the city is the neon. the neon is the trace. the trace is the wire. the wire is the glow. the glow is the bloom. the bloom is the art. the palette is acid. the glow is the additive. the additive is the light.
+
+**knot_weave** — truchet/knot tiles → endless interlace. (cf. `tesselations`, future `celtic_knotwork`.) the knot is the loop. the loop is the path. the path is the weave. the weave is the tile. the tile is the interlace. the interlace is the endless. the endless is the art. the palette is copper. the copper is the warm. the warm is the knot.
+
+**learned_hallucination** — overlapping model fed one of your own art repos → glitchy remix. the input is the art. the art is the sample. the sample is the pattern. the pattern is the learned. the learned is the hallucination. the hallucination is the glitch. the glitch is the remix. the remix is the art. the palette is the input. the input is the style. the style is the hers.
+
+## File Tree
+
+```
+wave_function_collapse/
+├── README.md
+├── repo_seed.txt
+├── context.manifest.json
+├── .gitignore
+├── index.html
+├── src/
+│ ├── js/
+│ │ ├── main.js
+│ │ ├── wfc-solver.js # the core: observe + propagate + backtrack
+│ │ ├── tilesets.js # adjacency rules / sockets per set
+│ │ └── color-maps.js
+│ ├── shaders/
+│ │ ├── tile-render.frag # draw collapsed grid from a tile atlas
+│ │ ├── entropy-heatmap.frag # visualize superposition entropy live
+│ │ └── post-process.frag # CRT / chromatic / glitch
+│ └── tilesets/ # swappable engines (data, not code)
+│ ├── truchet/
+│ ├── circuit/
+│ └── knots/
+└── docs/
+ ├── math-reference.md
+ └── visual-targets.md
+```
+
+## Pipeline
+
+1. **wfc-solver.js** runs the collapse → outputs a tile-index grid. the solver is the brain. the brain is the CPU. the CPU is the algorithm. the algorithm is the WFC.
+2. **tile-render.frag** draws tiles from an atlas by index. the atlas is the tileset. the tileset is the art. the art is the pattern. the pattern is the tile.
+3. **entropy-heatmap.frag** (optional, beautiful) renders live superposition entropy as a heat field during solving. the heatmap is the entropy. the entropy is the uncertainty. the uncertainty is the beauty. the beauty is the heat. the heat is the color. the color is the art.
+4. **post-process.frag** — CRT / chromatic / glitch. the post is the grit. the grit is the analog. the analog is the memory. the memory is the 90s.
+
+## Parameters
+
+- `grid_size`: 10×10 (small), 50×50 (medium), 100×100 (large)
+- `tileset`: truchet | circuit | knots | custom
+- `pattern_N`: 2 (overlapping model), 3 (standard), 4 (complex)
+- `weights`: per-tile frequency weights
+- `animate_speed`: 0 (instant), 100ms (slow), 10ms (fast) per collapse step
+- `backtrack`: true | false (restart on contradiction)
+
+## Palette
+
+Per tileset; entropy heatmap as neon:
+- **entropy_heat**: `#0d0221 #f72585 #4cc9f0 #ffffff`
+- **circuit_neon**: `#0a001a #8338ec #ff006e #ffbe0b #fb5607`
+- **knot_copper**: `#1a1a2e #b87333 #cd7f32 #ffd700 #ffffff`
+- **truchet_pastel**: `#f0e6ff #d8b4fe #c084fc #a855f7 #7c3aed`
+
+## Gotchas
+
+- CPU solver is the core — biggest architecture divergence in the batch. the solver is the brain. the brain is the CPU. the GPU is the eye. the eye is the display. the display is the art.
+- weighted entropy + contradiction-restart; truchet is the friendliest first tileset. the truchet is the easy. the easy is the start. the start is the warm-up.
+- the real work is defining adjacency/socket rules per tileset. the rule is the constraint. the constraint is the socket. the socket is the edge. the edge is the tile. the tile is the pattern. the pattern is the art.
+
+## Ecosystem Hooks
+
+Feeds/pairs with `tesselations`, `islamic_tiling`, future `celtic_knotwork`. Overlapping model can **consume any `*_aesthetic` repo** as training input → remix engine. The tile is the input. The input is the art. The art is the pattern. The pattern is the WFC. The WFC is the algorithm. The algorithm is the art.

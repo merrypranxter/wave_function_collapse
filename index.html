@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wave_function_collapse</title>
+  <style>
+    :root {
+      --bg: #0d0221; --panel: #160a33; --ink: #f0e6ff;
+      --accent: #f72585; --accent2: #4cc9f0; --muted: #8a7ca8;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; height: 100%; background: var(--bg); color: var(--ink);
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    #app { display: flex; height: 100vh; gap: 0; }
+    #panel {
+      width: 340px; flex: 0 0 340px; background: var(--panel);
+      padding: 22px 20px; overflow-y: auto; border-right: 1px solid #2a1a55;
+    }
+    #stageWrap {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 20px; min-width: 0;
+    }
+    canvas { image-rendering: auto; box-shadow: 0 0 60px #f7258533; border-radius: 4px; }
+    h1 { font-size: 18px; margin: 0 0 2px; letter-spacing: 0.5px; }
+    h1 .c { color: var(--accent); }
+    .sub { color: var(--muted); font-size: 11px; margin: 0 0 22px; line-height: 1.5; }
+    label { display: block; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--accent2); margin: 16px 0 6px; }
+    select, input[type=range] { width: 100%; }
+    select {
+      background: #0d0221; color: var(--ink); border: 1px solid #3a2a66;
+      padding: 8px; border-radius: 4px; font-family: inherit;
+    }
+    .row { display: flex; gap: 8px; margin-top: 18px; }
+    button {
+      flex: 1; background: #0d0221; color: var(--ink); border: 1px solid var(--accent);
+      padding: 10px; border-radius: 4px; cursor: pointer; font-family: inherit;
+      font-size: 13px; transition: background 0.15s;
+    }
+    button:hover { background: var(--accent); color: #0d0221; }
+    .check { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; }
+    .check input { accent-color: var(--accent); }
+    #status {
+      margin-top: 18px; padding: 10px; background: #0d0221; border-radius: 4px;
+      font-size: 11px; color: var(--accent2); min-height: 36px; line-height: 1.5;
+      border: 1px solid #2a1a55;
+    }
+    .small { font-size: 10px; color: var(--muted); margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <aside id="panel">
+      <h1>wave_function<span class="c">_</span>collapse</h1>
+      <p class="sub">CPU constraint-propagation. each cell is a superposition of
+        tiles. collapse the lowest-entropy cell, propagate adjacency, cascade,
+        repeat. the entropy is the heat.</p>
+
+      <label for="tileset">tileset</label>
+      <select id="tileset">
+        <option value="truchet">truchet — pastel maze of arcs</option>
+        <option value="knots">knots — copper interlace</option>
+        <option value="circuit">circuit — neon traces</option>
+      </select>
+
+      <label for="grid">grid size</label>
+      <select id="grid">
+        <option value="10">10 × 10 — small</option>
+        <option value="25" selected>25 × 25</option>
+        <option value="50">50 × 50 — medium</option>
+        <option value="100">100 × 100 — large</option>
+      </select>
+
+      <label for="speed">animate speed — <span id="speedval"></span></label>
+      <input id="speed" type="range" min="0" max="120" value="20" step="5" />
+
+      <div class="check"><input type="checkbox" id="heatmap" checked /><label
+        for="heatmap" style="margin:0;text-transform:none;letter-spacing:0;color:var(--ink)">entropy heatmap underlay</label></div>
+      <div class="check"><input type="checkbox" id="glow" /><label
+        for="glow" style="margin:0;text-transform:none;letter-spacing:0;color:var(--ink)">additive glow (circuit bloom)</label></div>
+      <div class="check"><input type="checkbox" id="backtrack" checked /><label
+        for="backtrack" style="margin:0;text-transform:none;letter-spacing:0;color:var(--ink)">backtrack on contradiction</label></div>
+
+      <div class="row">
+        <button id="run">▶ run</button>
+        <button id="step">step</button>
+      </div>
+      <div class="row">
+        <button id="instant">⚡ instant solve</button>
+      </div>
+
+      <div id="status"></div>
+      <p class="small">solver: src/js/wfc-solver.js · the brain is the CPU,
+        the GPU is the eye.</p>
+    </aside>
+
+    <main id="stageWrap">
+      <canvas id="stage" width="600" height="600"></canvas>
+    </main>
+  </div>
+
+  <script src="src/js/color-maps.js"></script>
+  <script src="src/js/tilesets.js"></script>
+  <script src="src/js/wfc-solver.js"></script>
+  <script src="src/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "circuit",
+  "description": "Neon traces. Wires exit on wire edges only; none meets none. Straights, corners, T-junctions, blanks, and component endpoints route continuous traces across a near-black board.",
+  "palette": "circuit_neon",
+  "sockets": "w = wire exits this edge, n = none",
+  "tiles": [
+    { "name": "cir_blank",    "rotations": [0],          "weight": 1.2, "sockets": { "n": "n", "e": "n", "s": "n", "w": "n" } },
+    { "name": "cir_straight", "rotations": [0, 1],       "weight": 1.0, "sockets": { "n": "n", "e": "w", "s": "n", "w": "w" } },
+    { "name": "cir_corner",   "rotations": [0, 1, 2, 3], "weight": 1.0, "sockets": { "n": "n", "e": "w", "s": "w", "w": "n" } },
+    { "name": "cir_tee",      "rotations": [0, 1, 2, 3], "weight": 0.7, "sockets": { "n": "n", "e": "w", "s": "w", "w": "w" } },
+    { "name": "cir_end",      "rotations": [0, 1, 2, 3], "weight": 0.5, "sockets": { "n": "n", "e": "w", "s": "n", "w": "n" } }
+  ],
+  "note": "15 tiles after rotation. Geometry (glowing traces + pads) rendered in src/js/tilesets.js."
+}

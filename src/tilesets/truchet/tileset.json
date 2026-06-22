@@ -1,0 +1,10 @@
+{
+  "name": "truchet",
+  "description": "The easiest gorgeous one. Two arc tiles; every edge is a path crossing the edge midpoint, so every tile fits every neighbor and the arcs always connect into a maze of loops.",
+  "palette": "truchet_pastel",
+  "sockets": "p = path crosses this edge midpoint",
+  "tiles": [
+    { "name": "truchet",      "rotations": [0, 1], "weight": 1, "sockets": { "n": "p", "e": "p", "s": "p", "w": "p" } }
+  ],
+  "note": "Geometry (procedural quarter-circle arcs) is rendered in src/js/tilesets.js. This file documents the adjacency contract."
+}

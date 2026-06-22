@@ -1,0 +1,13 @@
+{
+  "name": "knots",
+  "description": "Endless interlace. Strands enter and exit on strand edges only; empty meets empty. Straights, corners, and an over/under crossing weave into a continuous knot.",
+  "palette": "knot_copper",
+  "sockets": "s = strand exits this edge, e = empty",
+  "tiles": [
+    { "name": "knot_empty",    "rotations": [0],          "weight": 0.4, "sockets": { "n": "e", "e": "e", "s": "e", "w": "e" } },
+    { "name": "knot_straight", "rotations": [0, 1],       "weight": 1.0, "sockets": { "n": "s", "e": "e", "s": "s", "w": "e" } },
+    { "name": "knot_corner",   "rotations": [0, 1, 2, 3], "weight": 1.0, "sockets": { "n": "s", "e": "s", "s": "e", "w": "e" } },
+    { "name": "knot_cross",    "rotations": [0],          "weight": 0.8, "sockets": { "n": "s", "e": "s", "s": "s", "w": "s" } }
+  ],
+  "note": "8 tiles after rotation. Geometry rendered in src/js/tilesets.js."
+}
